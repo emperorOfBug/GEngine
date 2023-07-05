@@ -25,7 +25,7 @@ import {
 	TextureFormat
 } from "./WebGPUConstant";
 export const GPUCanvasCompositingAlphaMode: {
-	[key: string]: GPUCanvasCompositingAlphaMode;
+	[key: string]: any;
 } = {
 	Opaque: "opaque",
 	Premultiplied: "premultiplied"

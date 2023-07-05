@@ -52,7 +52,7 @@
 				AmbientLight,
 				DirectionalLight,
 				Axes
-			} from "../../dist/index.js";
+			} from "../../../dist/index.js";
 
 			const init = async () => {
 				const scene = new Scene({
@@ -64,19 +64,9 @@
 				};
 
 				const gltf = await loadGLTF(
-					//'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/VC/glTF/VC.gltf'
-					//"https://raw.githubusercontent.com/shrekshao/minimal-gltf-loader/store-drone-model/glTFs/glTF_version_2/buster_drone/scene.gltf"
-					//"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMilkTruck/glTF/CesiumMilkTruck.gltf"
-					//"../asset/model/dragon.glb"
-					// "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoomBoxWithAxes/glTF/BoomBoxWithAxes.gltf"
-					//'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMan/glTF/CesiumMan.gltf'
-					//"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BrainStem/glTF-Binary/BrainStem.glb"
-					//"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Corset/glTF/Corset.gltf"
-					//"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf"
-					//"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/WaterBottle/glTF/WaterBottle.gltf"
-					//"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BarramundiFish/glTF/BarramundiFish.gltf"
-					"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF/DamagedHelmet.gltf"
-					//"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/MetalRoughSpheres/glTF/MetalRoughSpheres.gltf"
+					// "/public/dabachul.gltf"
+					"/public/jingguan.glb"
+					// "/public/Cow.gltf"
 				);
 				gltf.scenes.map((nodes) => {
 					nodes.map((node) => {
@@ -84,25 +74,25 @@
 					});
 				});
 				const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 1000);
-				camera.position.set(2, 0, 2);
+				camera.position.set(2, 200, 2);
 				camera.lookAt(0, 0, 0);
 				const ambientLight = new AmbientLight(new Vector3(1.0, 1.0, 1.0), 0.8);
 				scene.add(ambientLight);
 				const control = new OrbitControl(camera, document.getElementById("app"));
 				const urls = [
-					`../textures/royal_esplanade_1k/px.png`,
-					`../textures/royal_esplanade_1k/nx.png`,
-					`../textures/royal_esplanade_1k/py.png`,
-					`../textures/royal_esplanade_1k/ny.png`,
-					`../textures/royal_esplanade_1k/pz.png`,
-					`../textures/royal_esplanade_1k/nz.png`
+					`../../../example/textures/royal_esplanade_1k/px.png`,
+					`../../../example/textures/royal_esplanade_1k/nx.png`,
+					`../../../example/textures/royal_esplanade_1k/py.png`,
+					`../../../example/textures/royal_esplanade_1k/ny.png`,
+					`../../../example/textures/royal_esplanade_1k/pz.png`,
+					`../../../example/textures/royal_esplanade_1k/nz.png`
 				];
 				const skybox = new SkyBox(urls);
 				skybox.visibility = false;
 				window.addEventListener("resize", onWindowResize);
 				scene.add(skybox);
 				scene.setCamera(camera);
-				const axes = new Axes();
+				// const axes = new Axes();
 				// scene.add(axes)
 				// scene.add(directionalLight)
 				var timeStampZero = performance.now();
@@ -113,6 +103,7 @@
 					// gltf?.animations?.map?.((animation) => {
 					// 	animation.play(timeParameter);
 					// });
+          // gltf.animations[window.animationIndex || 0].play(timeParameter)
 					control.update();
 					scene.render();
 				}

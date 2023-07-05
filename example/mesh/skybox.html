@@ -51,7 +51,7 @@
 				loadGLTF,
 				OrbitControl,
 				AmbientLight
-			} from "../../dist/index.js";
+			} from "../../../dist/index.js";
 
 			const init = async () => {
 				const scene = new Scene({
@@ -64,12 +64,12 @@
 				scene.add(ambientLight);
 				const control = new OrbitControl(camera, document.getElementById("app"));
 				const urls = [
-					`../textures/royal_esplanade_1k/px.png`,
-					`../textures/royal_esplanade_1k/nx.png`,
-					`../textures/royal_esplanade_1k/py.png`,
-					`../textures/royal_esplanade_1k/ny.png`,
-					`../textures/royal_esplanade_1k/pz.png`,
-					`../textures/royal_esplanade_1k/nz.png`
+					`../../../example/textures/royal_esplanade_1k/px.png`,
+					`../../../example/textures/royal_esplanade_1k/nx.png`,
+					`../../../example/textures/royal_esplanade_1k/py.png`,
+					`../../../example/textures/royal_esplanade_1k/ny.png`,
+					`../../../example/textures/royal_esplanade_1k/pz.png`,
+					`../../../example/textures/royal_esplanade_1k/nz.png`
 				];
 				const skybox = new SkyBox(urls);
 				window.addEventListener("resize", onWindowResize);

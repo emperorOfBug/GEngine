@@ -108,6 +108,15 @@ export default function pbr_fs(defines) {
                 let emissive:vec3<f32> = textureSample(emissiveTexture, emissiveSampler,input.uv).rgb ;
                 color += emissive;
             #endif
+            
+            if(length(color)<1e-4){
+              color = baseColor.rgb;
+            }
+            
+            if(baseColor.a<1e-4) {
+              discard;
+            }
+       
        return vec4<f32>(color, baseColor.a);
     }
    `;

@@ -29,7 +29,7 @@
                 PlaneGeometry,
                 SphereGeometry,
                 OrbitControl
-            } from "../dist/index.js";
+            } from "..../../../dist/index.js";
 
             const init = async () => {
 

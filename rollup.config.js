@@ -11,7 +11,7 @@ const useBabel = BABEL === "true";
 export default {
 	input: "./src/index.ts",
 	output: {
-		file: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./dist/index.js"),
+		file: "./dist/index.js",
 		sourcemap: production ? false : "inline",
 		format: "es",
 		name: "index"

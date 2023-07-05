@@ -125,9 +125,9 @@ export default class OrbitControl extends EventDispatcher {
 
     // Mouse buttons
     this.mouseButtons = {
-      LEFT: MOUSE.ROTATE,
+      LEFT: MOUSE.PAN,
       MIDDLE: MOUSE.DOLLY,
-      RIGHT: MOUSE.PAN,
+      RIGHT: MOUSE.ROTATE,
     };
 
     // Touch fingers

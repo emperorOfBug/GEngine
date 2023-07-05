@@ -179,8 +179,7 @@ export class Model {
 						<PrimitiveTopology>primitive.topology,
 						<CullMode>primitive.cullMode,
 						<FrontFace>primitive.frontFace,
-						primitive.unclippedDepth
-				  )
+						primitive.unclippedDepth)
 				: undefined,
 			stencilEnabled: false,
 			scissorTestEnabled: false

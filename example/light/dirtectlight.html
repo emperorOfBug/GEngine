@@ -34,7 +34,7 @@
 				width: 100%;
 			}
 		</style>
-		<!-- <script type="module" src="../dist/index.js"></script> -->
+		<!-- <script type="module" src="..../../../dist/index.js"></script> -->
 	</head>
 
 	<body>
@@ -52,11 +52,11 @@
 				DirectionalLight,
 				PlaneGeometry,
 				OrbitControl
-			} from "../../dist/index.js";
+			} from "../../../dist/index.js";
 
 			const init = async () => {
 				const img = document.createElement("img");
-				img.src = "../textures/uv.jpg";
+				img.src = "../../../example/textures/uv.jpg";
 				await img.decode();
 				const imageBitmap = await createImageBitmap(img);
 				const baseSampler = new Sampler({
