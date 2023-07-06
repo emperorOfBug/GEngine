@@ -62,7 +62,8 @@
 				loadTexture,
 				OrbitControl,
 				PlaneGeometry,
-				AmbientLight
+				AmbientLight,
+        loadGLTF
 			} from "../../../dist/index.js";
 
 			const init = async () => {
@@ -78,7 +79,7 @@
 				control.zoomSpeed = 2.0;
 				control.maxPolarAngle = Math.PI / 2;
 
-				const ambientLight = new AmbientLight(new Vector3(0.25, 0.25, 0.25), 0.1);
+				const ambientLight = new AmbientLight(new Vector3(1, 1, 1), .2);
 
 				const environmentUrls = [
 					`../../../../../example/textures/environment/px.jpg`,
@@ -89,6 +90,13 @@
 					`../../../../../example/textures/environment/nz.jpg`
 				];
 				const skybox = new SkyBox(environmentUrls);
+
+        const gltf = await loadGLTF("/public/Cow.gltf");
+        gltf.scenes.map((nodes) => {
+          nodes.map((node) => {
+            scene.add(node);
+          });
+        });
 
 				const directionalLight = new DirectionalLight(new Vector3(1.0, 1.0, 1.0), 1.0);
 				directionalLight.position.set(30, 40, -8);
@@ -111,16 +119,16 @@
 				const spherePrimitive = new Mesh(sphereGeometry, sphereMaterial);
 				spherePrimitive.position.set(20, 10, 20);
 
-				const groundGeometry = new PlaneGeometry(100, 100);
+				const groundGeometry = new PlaneGeometry(1000, 1000);
 				const groundMaterial = new BlinnPhongMaterial(Color.fromCssColorString("#111111"), 150);
 				groundMaterial.color = new Color(0.78, 0.85, 0.86);
 				const ground = new Mesh(groundGeometry, groundMaterial);
 				ground.rotateX(Math.PI / 2);
 
-				scene.add(boxPrimitive);
-				scene.add(boxPrimitive);
-				scene.add(torusKnotPrimitive);
-				scene.add(spherePrimitive);
+				// scene.add(boxPrimitive);
+				// scene.add(boxPrimitive);
+				// scene.add(torusKnotPrimitive);
+				// scene.add(spherePrimitive);
 				scene.add(ground);
 				scene.add(skybox);
 				scene.add(ambientLight);
@@ -128,19 +136,26 @@
 
 				var radiu = 40;
 				var i = 0;
-				function animate() {
+        var timeParameter = 0;
+        var timeStampZero = performance.now();
+        window.animationIndex = 1
+				function animate(timestamp) {
 					i++;
-					var rad = (i * Math.PI) / 180;
+					var rad = (i * Math.PI) / 720;
 					var x = Math.sin(rad) * radiu;
 					var z = Math.cos(rad) * radiu;
 					directionalLight.position = new Vector3(x, 40, z);
-					torusKnotPrimitive.rotateX(0.01);
+					// torusKnotPrimitive.rotateX(0.01);
 					requestAnimationFrame(animate);
+
+          timeParameter = (timestamp - timeStampZero) * 0.001;
+          gltf?.animations?.[window.animationIndex].play(timeParameter);
+
 					control.update();
 					scene.render();
 				}
 				// document.body.appendChild(scene.context.canvas);
-				animate();
+				animate(0);
 				//scene.render()
 			};
 			init();

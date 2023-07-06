@@ -52,6 +52,9 @@
 				OrbitControl,
 				AmbientLight,
 				DirectionalLight,
+        PlaneGeometry,
+        BlinnPhongMaterial,
+        Mesh,
 				Axes
 			} from "../../../dist/index.js";
 
@@ -60,13 +63,20 @@
 					container: "app"
 				});
 				const directionalLight = new DirectionalLight(new Vector3(1.0, 1.0, 1.0), 1.0);
-				directionalLight.position.set(1, 1, 1);
-				const gltf = await loadGLTF("/public/Cow.gltf");
+				directionalLight.position.set(100, 100, 100);
+        scene.add(directionalLight)
+				const gltf = await loadGLTF("/public/car.glb");
 				gltf.scenes.map((nodes) => {
 					nodes.map((node) => {
 						scene.add(node);
 					});
 				});
+        const groundGeometry = new PlaneGeometry(100, 100);
+        const groundMaterial = new BlinnPhongMaterial();
+        groundMaterial.color = new Color(0.5, 0.5, 0.0);
+        const ground = new Mesh(groundGeometry, groundMaterial);
+        ground.rotateX(Math.PI / 2);
+        scene.add(ground)
 				const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 1000);
 				camera.position.set(2, 10, 2);
 				camera.lookAt(0, 0, 0);
@@ -88,7 +98,7 @@
 				const axes = new Axes();
 				var timeStampZero = performance.now();
 				var timeParameter = 0;
-				window.animationIndex = 3;
+				window.animationIndex = 1;
 
 				function animate(timestamp) {
 					timeParameter = (timestamp - timeStampZero) * 0.001;
@@ -96,7 +106,7 @@
 					// gltf?.animations?.map?.((animation) => {
 					// 	animation.play(timeParameter);
 					// });
-					gltf?.animations?.[window.animationIndex].play(timeParameter);
+					// gltf?.animations?.[window.animationIndex].play(timeParameter);
 					// gltf.animations[window.animationIndex].play(timeParameter)
 					control.update();
 					scene.render();

@@ -265,7 +265,7 @@ export class GLTF {
 			accessor.componentType,
 			this.buffers[bufferView.buffer],
 			bufferView.buffer === 0 ? offset + this.glbOffset : offset,
-			accessor.count * stride
+			(accessor.count - 1) * stride + n
 		);
 		if (stride > n) {
 			const TypedArrayConstructor = array.constructor as {
@@ -327,12 +327,12 @@ export class GLTF {
 		} else if (material.normalTexture) {
 			// tangents = generateTangents(indices, positions, normals, uvs!);
 		}
-		// let colors = null;
-		// if (primitive.attributes.COLOR_0 !== undefined) {
-		//     accessor = this.getAccessor(primitive.attributes.COLOR_0);
-		//     colors = accessor.getArray();
-		//     defines.HAS_COLOR = true;
-		// }
+		let colors = null;
+        if (primitive.attributes.COLOR_0 !== undefined) {
+            accessor = this.getAccessor(primitive.attributes.COLOR_0);
+            colors = accessor.getArray();
+            defines.HAS_COLOR = true;
+        }
 		let joints = null;
 		if (primitive.attributes.JOINTS_0 !== undefined) {
 			accessor = this.getAccessor(primitive.attributes.JOINTS_0);
@@ -349,7 +349,7 @@ export class GLTF {
 		if (indices) geo.setIndice(indices);
 		if (positions) geo.setAttribute(new Float32Attribute("position", Array.from(positions), 3));
 		if (normals) geo.setAttribute(new Float32Attribute("normal", Array.from(normals), 3));
-		// if (colors) geo.setAttribute(new Float32Attribute("color", Array.from(colors), 4));
+		if (colors) geo.setAttribute(new Float32Attribute("color", Array.from(colors), 4));
 		if (uvs) geo.setAttribute(new Float32Attribute("uv", Array.from(uvs), 2));
 		if (joints) geo.setAttribute(new Float32Attribute("joint0", Array.from(joints), 4));
 		if (weights) geo.setAttribute(new Float32Attribute("weight0", Array.from(weights), 4));

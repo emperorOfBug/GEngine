@@ -51,7 +51,9 @@
 				Color,
 				DirectionalLight,
 				PlaneGeometry,
-				OrbitControl
+				OrbitControl,
+        loadGLTF,
+        SkyBox
 			} from "../../../dist/index.js";
 
 			const init = async () => {
@@ -85,12 +87,34 @@
 				camera.lookAt(0, 0, 0);
 
 				const directionalLight = new DirectionalLight(new Vector3(1.0, 1.0, 1.0), 0.8);
-				directionalLight.position.set(1, 1, 1);
+				directionalLight.position.set(0, 20, 0);
 
 				const scene = new Scene({ container: "app" });
-				scene.add(ground);
+
+
+        const urls = [
+          `../../../example/textures/royal_esplanade_1k/px.png`,
+          `../../../example/textures/royal_esplanade_1k/nx.png`,
+          `../../../example/textures/royal_esplanade_1k/py.png`,
+          `../../../example/textures/royal_esplanade_1k/ny.png`,
+          `../../../example/textures/royal_esplanade_1k/pz.png`,
+          `../../../example/textures/royal_esplanade_1k/nz.png`
+        ];
+        const skybox = new SkyBox(urls);
+
+
+        const gltf = await loadGLTF("/public/Cow.gltf");
+        gltf.scenes.map((nodes) => {
+          nodes.map((node) => {
+            scene.add(node);
+          });
+        });
+
+        scene.add(ground);
+        scene.add(skybox);
 				scene.setCamera(camera);
 				scene.add(directionalLight);
+
 				const control = new OrbitControl(camera, document.getElementById("app"));
 				control.zoomSpeed = 2.0;
 				control.maxPolarAngle = Math.PI / 2;
