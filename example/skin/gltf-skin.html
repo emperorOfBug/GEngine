@@ -61,9 +61,7 @@
 				});
 				const directionalLight = new DirectionalLight(new Vector3(1.0, 1.0, 1.0), 1.0);
 				directionalLight.position.set(1, 1, 1);
-				const gltf = await loadGLTF(
-					"/public/Cow.gltf"
-				);
+				const gltf = await loadGLTF("/public/Cow.gltf");
 				gltf.scenes.map((nodes) => {
 					nodes.map((node) => {
 						scene.add(node);
@@ -90,21 +88,25 @@
 				const axes = new Axes();
 				var timeStampZero = performance.now();
 				var timeParameter = 0;
-        window.animationIndex = 3
+				window.animationIndex = 3;
+
 				function animate(timestamp) {
 					timeParameter = (timestamp - timeStampZero) * 0.001;
 					requestAnimationFrame(animate);
 					// gltf?.animations?.map?.((animation) => {
 					// 	animation.play(timeParameter);
 					// });
-          // gltf.animations[window.animationIndex].play(timeParameter)
+					gltf?.animations?.[window.animationIndex].play(timeParameter);
+					// gltf.animations[window.animationIndex].play(timeParameter)
 					control.update();
 					scene.render();
 				}
+
 				function onWindowResize() {
 					camera.aspect = window.innerWidth / window.innerHeight;
 					scene.resize(window.innerWidth, window.innerHeight);
 				}
+
 				animate();
 			};
 			init();
