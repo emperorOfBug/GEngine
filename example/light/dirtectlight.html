@@ -52,8 +52,8 @@
 				DirectionalLight,
 				PlaneGeometry,
 				OrbitControl,
-        loadGLTF,
-        SkyBox
+				loadGLTF,
+				SkyBox
 			} from "../../../dist/index.js";
 
 			const init = async () => {
@@ -91,27 +91,25 @@
 
 				const scene = new Scene({ container: "app" });
 
+				const urls = [
+					`../../../example/textures/royal_esplanade_1k/px.png`,
+					`../../../example/textures/royal_esplanade_1k/nx.png`,
+					`../../../example/textures/royal_esplanade_1k/py.png`,
+					`../../../example/textures/royal_esplanade_1k/ny.png`,
+					`../../../example/textures/royal_esplanade_1k/pz.png`,
+					`../../../example/textures/royal_esplanade_1k/nz.png`
+				];
+				const skybox = new SkyBox(urls);
 
-        const urls = [
-          `../../../example/textures/royal_esplanade_1k/px.png`,
-          `../../../example/textures/royal_esplanade_1k/nx.png`,
-          `../../../example/textures/royal_esplanade_1k/py.png`,
-          `../../../example/textures/royal_esplanade_1k/ny.png`,
-          `../../../example/textures/royal_esplanade_1k/pz.png`,
-          `../../../example/textures/royal_esplanade_1k/nz.png`
-        ];
-        const skybox = new SkyBox(urls);
+				const gltf = await loadGLTF("/public/people.glb");
+				gltf.scenes.map((nodes) => {
+					nodes.map((node) => {
+						scene.add(node);
+					});
+				});
 
-
-        const gltf = await loadGLTF("/public/Cow.gltf");
-        gltf.scenes.map((nodes) => {
-          nodes.map((node) => {
-            scene.add(node);
-          });
-        });
-
-        scene.add(ground);
-        scene.add(skybox);
+				scene.add(ground);
+				scene.add(skybox);
 				scene.setCamera(camera);
 				scene.add(directionalLight);
 

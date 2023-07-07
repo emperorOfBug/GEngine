@@ -45,7 +45,7 @@ export class BasicPass extends Pass {
 		const depthTexture = new Texture({
 			label: "basicPassDepth",
 			size: { width, height, depth },
-			format: TextureFormat.Depth24Plus,
+			format: TextureFormat.Depth32Float,
 			usage: TextureUsage.RenderAttachment
 		});
 		const colorAttachment = new Attachment({ r: 0.0, g: 0.0, b: 0.0, a: 0.0 }, { texture: colorTexture });

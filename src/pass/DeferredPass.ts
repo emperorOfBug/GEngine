@@ -42,7 +42,7 @@ export class DeferredPass extends Pass {
 		const depthTexture = new Texture({
 			label: "deferredPassDepth",
 			size: { width, height, depth },
-			format: TextureFormat.Depth24Plus,
+			format: TextureFormat.Depth32Float,
 			usage: TextureUsage.RenderAttachment
 		});
 		const positionAttachment = new Attachment({ r: 0.0, g: 0.0, b: 0.0, a: 0.0 }, { texture: positionTexture });

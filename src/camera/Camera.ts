@@ -7,6 +7,7 @@ import Vector3 from "../math/Vector3";
 import ShaderData from "../render/ShaderData";
 import UniformBuffer from "../render/UniformBuffer";
 import { UniformEnum } from "../render/Uniforms";
+import matrix4 from "../math/Matrix4";
 
 export default class Camera extends RenderObject {
 	private _viewMatrix: Matrix4;
@@ -17,6 +18,7 @@ export default class Camera extends RenderObject {
 	shaderData: ShaderData;
 	near: number;
 	far: number;
+
 	constructor() {
 		super();
 		this._viewMatrix = undefined;
@@ -27,11 +29,13 @@ export default class Camera extends RenderObject {
 		this.projectMatrixDirty = true;
 		this.createShaderData();
 	}
+
 	get viewMatrix() {
 		this.updateMatrix();
 		Matrix4.inverse(this.modelMatrix, this._viewMatrix);
 		return this._viewMatrix;
 	}
+
 	get projectionMatrix() {
 		this.updateProjectionMatrix();
 		return this._projectionMatrix;
@@ -46,7 +50,9 @@ export default class Camera extends RenderObject {
 		this.updateMatrix();
 		return this.modelMatrix;
 	}
+
 	public updateProjectionMatrix() {}
+
 	/**
 	 * get a culling volume for this frustum.
 	 */
@@ -109,6 +115,13 @@ export default class Camera extends RenderObject {
 			UniformEnum.Mat4
 		);
 		uniformBuffer.setUniform(
+			"viewProjectionMatrix",
+			() => {
+				return Matrix4.multiply(this.projectionMatrix, this.viewMatrix, new Matrix4());
+			},
+			UniformEnum.Mat4
+		);
+		uniformBuffer.setUniform(
 			"inverseViewMatrix",
 			() => {
 				return this.inverseViewMatrix;
@@ -121,6 +134,19 @@ export default class Camera extends RenderObject {
 				return this.position;
 			},
 			UniformEnum.FloatVec3
+		);
+		uniformBuffer.setUniform(
+			"reversedZ",
+			() => {
+				const depthRangeRemapMatrix = new Matrix4();
+				Matrix4.clone(Matrix4.IDENTITY, depthRangeRemapMatrix);
+				depthRangeRemapMatrix[10] = -1;
+				depthRangeRemapMatrix[14] = 1;
+
+				Matrix4.multiply(depthRangeRemapMatrix, this._projectionMatrix, depthRangeRemapMatrix);
+				return depthRangeRemapMatrix;
+			},
+			UniformEnum.Mat4
 		);
 		this.shaderData.setUniformBuffer("camera", uniformBuffer);
 	}

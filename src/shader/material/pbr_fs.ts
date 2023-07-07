@@ -113,7 +113,7 @@ export default function pbr_fs(defines) {
               discard;
             }
        
-       return vec4<f32>(color, baseColor.a);
+       return baseColor;
     }
    `;
 }

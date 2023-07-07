@@ -17,6 +17,8 @@ import { Animation } from "./gltf/libs/Animation";
 import { AnimationChannel } from "./gltf/libs/AnimationChannel";
 import { AnimationChannelTarget } from "./gltf/libs/AnimationChannelTarget";
 import { AnimationSampler } from "./gltf/libs/AnimationSampler";
+import { DepthStencil, Primitive, RenderState } from "../render/RenderState";
+import { CompareFunction, CullMode } from "../core/WebGPUConstant";
 
 export type GLTFPrimitive = {
 	vertexCount: number;
@@ -157,6 +159,13 @@ export class GLTF {
 					if (baseColorFactor) {
 						mat.color = new Color(baseColorFactor[0], baseColorFactor[1], baseColorFactor[2]);
 					}
+					material.renderState = new RenderState({
+						depthStencil: new DepthStencil({
+							depthWriteEnabled: true,
+							depthCompare: CompareFunction.Greater
+						}),
+						primitive: new Primitive(null, CullMode.Front)
+					});
 					mat.metalness = metallicFactor ?? 1.0;
 					mat.roughness = roughnessFactor ?? 0.0;
 					mat.baseSampler = new Sampler({
@@ -319,20 +328,20 @@ export class GLTF {
 			// defines.HAS_UV1 = true;
 		}
 
-		// let tangents = null;
+		let tangents = null;
 		if (primitive.attributes.TANGENT !== undefined && primitive.attributes.NORMAL !== undefined) {
 			accessor = this.getAccessor(primitive.attributes.TANGENT);
-			// tangents = accessor.getArray();
-			defines.HAS_TANGENT = true;
+			tangents = accessor.getArray();
+			// defines.HAS_TANGENT = true;
 		} else if (material.normalTexture) {
-			// tangents = generateTangents(indices, positions, normals, uvs!);
+			tangents = generateTangents(indices, positions, normals, uvs!);
 		}
 		let colors = null;
-        if (primitive.attributes.COLOR_0 !== undefined) {
-            accessor = this.getAccessor(primitive.attributes.COLOR_0);
-            colors = accessor.getArray();
-            defines.HAS_COLOR = true;
-        }
+		if (primitive.attributes.COLOR_0 !== undefined) {
+			accessor = this.getAccessor(primitive.attributes.COLOR_0);
+			colors = accessor.getArray();
+			defines.HAS_COLOR = true;
+		}
 		let joints = null;
 		if (primitive.attributes.JOINTS_0 !== undefined) {
 			accessor = this.getAccessor(primitive.attributes.JOINTS_0);
@@ -347,14 +356,15 @@ export class GLTF {
 
 		const geo = new Geometry({ type: "pbrGeomtry" });
 		if (indices) geo.setIndice(indices);
-		if (positions) geo.setAttribute(new Float32Attribute("position", Array.from(positions), 3));
-		if (normals) geo.setAttribute(new Float32Attribute("normal", Array.from(normals), 3));
-		if (colors) geo.setAttribute(new Float32Attribute("color", Array.from(colors), 4));
-		if (uvs) geo.setAttribute(new Float32Attribute("uv", Array.from(uvs), 2));
-		if (joints) geo.setAttribute(new Float32Attribute("joint0", Array.from(joints), 4));
-		if (weights) geo.setAttribute(new Float32Attribute("weight0", Array.from(weights), 4));
+		if (positions) geo.setAttribute(new Float32Attribute("position", positions, 3));
+		if (normals) geo.setAttribute(new Float32Attribute("normal", normals, 3));
+		if (colors) geo.setAttribute(new Float32Attribute("color", colors, 4));
+		if (uvs) geo.setAttribute(new Float32Attribute("uv", uvs, 2));
+		if (joints) geo.setAttribute(new Float32Attribute("joint0", joints, 4));
+		if (weights) geo.setAttribute(new Float32Attribute("weight0", weights, 4));
+		if (tangents) geo.setAttribute(new Float32Attribute("tbn", tangents, 4));
 		geo.defines = defines;
-		geo.computeBoundingSphere(Array.from(positions));
+		geo.computeBoundingSphere(positions);
 		geo.count = vertexCount;
 		return geo;
 	}

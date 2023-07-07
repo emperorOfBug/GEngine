@@ -23,7 +23,7 @@ export default function pbr_vs(defines) {
         #include <skinVertMain>
         #include <instanceVertMain>  
         output.normal = vNormalView.xyz;
-        output.position = systemUniform.projectionMatrix * systemUniform.viewMatrix *modelMatrix* vec4<f32>(input.position, 1.0);
+        output.position = systemUniform.viewProjectionMatrix *modelMatrix* vec4<f32>(input.position, 1.0);
         let modelPos=modelMatrix *vec4<f32>(input.position,1.0);
         output.worldPos = modelPos.xyz/modelPos.w;
         return output;   

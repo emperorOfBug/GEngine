@@ -57,7 +57,7 @@ export class BaseShadow {
 			},
 			fixedSize: true,
 			sampleType: TextureSampleType.Depth,
-			format: TextureFormat.Depth24Plus,
+			format: TextureFormat.Depth32Float,
 			usage: TextureUsage.RenderAttachment | TextureUsage.TextureBinding | TextureUsage.CopySrc
 		});
 	}

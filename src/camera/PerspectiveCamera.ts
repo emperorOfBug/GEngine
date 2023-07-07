@@ -2,6 +2,7 @@ import CullingVolume from "../core/CullingVolume";
 import GMath from "../math/Math";
 import Matrix4 from "../math/Matrix4";
 import Camera from "./Camera";
+
 export default class PerspectiveCamera extends Camera {
 	xOffset: number;
 	yOffset: number;
@@ -15,6 +16,7 @@ export default class PerspectiveCamera extends Camera {
 	far: number;
 	top: number;
 	left: number;
+
 	constructor(fov = 50, aspect = 1, near = 0.1, far = 2000) {
 		super();
 		this._aspect = aspect;
@@ -28,6 +30,7 @@ export default class PerspectiveCamera extends Camera {
 		this.cullingVolume = new CullingVolume();
 		this.isPerspectiveCamera = true;
 	}
+
 	get aspect(): number {
 		return this._aspect;
 	}
@@ -36,6 +39,7 @@ export default class PerspectiveCamera extends Camera {
 		this.projectMatrixDirty = true;
 		this._aspect = v;
 	}
+
 	get fov(): number {
 		return this._fov;
 	}
@@ -44,12 +48,14 @@ export default class PerspectiveCamera extends Camera {
 		this.projectMatrixDirty = true;
 		this._fov = v;
 	}
+
 	private updateCameraParms() {
 		this.top = this.near * Math.tan(0.5 * GMath.RADIANS_PER_DEGREE * this.fov);
 		this.height = 2 * this.top;
 		this.width = this.aspect * this.height;
 		this.left = -0.5 * this.width;
 	}
+
 	public updateProjectionMatrix() {
 		if (this.projectMatrixDirty) {
 			this.updateCameraParms();
@@ -61,6 +67,7 @@ export default class PerspectiveCamera extends Camera {
 				this.near,
 				this.far
 			);
+
 			this.projectMatrixDirty = false;
 		}
 	}

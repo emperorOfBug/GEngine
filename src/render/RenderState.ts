@@ -200,7 +200,7 @@ export class DepthStencil {
 	depthBiasSlopeScale: number;
 	depthBiasClamp: number;
 	constructor(options?: DepthStencilProps) {
-		this.format = defaultValue(options?.format, TextureFormat.Depth24Plus);
+		this.format = defaultValue(options?.format, TextureFormat.Depth32Float);
 		this.depthWriteEnabled = defaultValue(options?.depthWriteEnabled, true);
 		this.depthCompare = defaultValue(options?.depthCompare, CompareFunction.Less);
 		this.stencilReadMask = defaultValue(options?.stencilReadMask, 0xffffffff);

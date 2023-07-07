@@ -56,9 +56,9 @@ export default class RenderTarget {
 							colorAttachment.resolveTarget != undefined
 								? colorAttachment.resolveTarget.textureView
 								: undefined,
-						clearValue: colorAttachment.value,
-						loadOp: colorAttachment.op,
-						storeOp: colorAttachment.storeOp
+						// clearValue: colorAttachment.value,
+						loadOp: colorAttachment.op || "load",
+						storeOp: colorAttachment.storeOp || "store"
 					} as GPURenderPassColorAttachment;
 				})
 			}),
@@ -66,7 +66,7 @@ export default class RenderTarget {
 				depthStencilAttachment: {
 					view: this.depthAttachment?.texture?.textureView || undefined,
 					depthLoadOp: this.depthAttachment?.op || "clear",
-					depthClearValue: this.depthAttachment?.value || 1.0,
+					depthClearValue: this.depthAttachment?.value || 0.0,
 					depthStoreOp: this.depthAttachment?.storeOp || "store",
 					depthReadOnly: this.depthAttachment?.readOnly || false
 					// stencilLoadOp: this.stencilAttachment?.op || "clear",

@@ -280,7 +280,7 @@ export default class LightManger {
 			},
 			fixedSize: true,
 			sampleType: TextureSampleType.Depth,
-			format: TextureFormat.Depth24Plus,
+			format: TextureFormat.Depth32Float,
 			usage: TextureUsage.TextureBinding | TextureUsage.CopyDst,
 			data: shadowMapSources,
 			viewFormats: TextureViewDimension.E2dArray
