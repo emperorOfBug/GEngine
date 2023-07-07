@@ -159,13 +159,6 @@ export class GLTF {
 					if (baseColorFactor) {
 						mat.color = new Color(baseColorFactor[0], baseColorFactor[1], baseColorFactor[2]);
 					}
-					material.renderState = new RenderState({
-						depthStencil: new DepthStencil({
-							depthWriteEnabled: true,
-							depthCompare: CompareFunction.Greater
-						}),
-						primitive: new Primitive(null, CullMode.Front)
-					});
 					mat.metalness = metallicFactor ?? 1.0;
 					mat.roughness = roughnessFactor ?? 0.0;
 					mat.baseSampler = new Sampler({
@@ -174,8 +167,7 @@ export class GLTF {
 						addressModeU: "repeat",
 						addressModeV: "repeat"
 					});
-					return mat;
-			  })
+					return mat;})
 			: [];
 	}
 

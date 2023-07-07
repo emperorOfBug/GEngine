@@ -65,8 +65,8 @@
 				const directionalLight = new DirectionalLight(new Vector3(1.0, 1.0, 1.0), 1.0);
 				directionalLight.position.set(100, 100, 100);
 				scene.add(directionalLight);
-				// const gltf = await loadGLTF("/public/jingguan.glb");
-				const gltf = await loadGLTF("/public/Cow.gltf");
+				const gltf = await loadGLTF("/public/jingguan.glb");
+				// const gltf = await loadGLTF("/public/Cow.gltf");
 				// const gltf = await loadGLTF("/public/dabachul.gltf");
 				gltf.scenes.map((nodes) => {
 					nodes.map((node) => {

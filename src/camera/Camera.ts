@@ -103,7 +103,14 @@ export default class Camera extends RenderObject {
 		uniformBuffer.setUniform(
 			"projectionMatrix",
 			() => {
-				return this.projectionMatrix;
+				const depthRangeRemapMatrix = new Matrix4();
+				Matrix4.clone(Matrix4.IDENTITY, depthRangeRemapMatrix);
+				depthRangeRemapMatrix[10] = -1;
+				depthRangeRemapMatrix[14] = 1;
+
+				Matrix4.multiply(depthRangeRemapMatrix, this.projectionMatrix, depthRangeRemapMatrix);
+				return depthRangeRemapMatrix;
+				// return this.projectionMatrix
 			},
 			UniformEnum.Mat4
 		);
@@ -111,13 +118,6 @@ export default class Camera extends RenderObject {
 			"viewMatrix",
 			() => {
 				return this.viewMatrix;
-			},
-			UniformEnum.Mat4
-		);
-		uniformBuffer.setUniform(
-			"viewProjectionMatrix",
-			() => {
-				return Matrix4.multiply(this.projectionMatrix, this.viewMatrix, new Matrix4());
 			},
 			UniformEnum.Mat4
 		);
@@ -134,19 +134,6 @@ export default class Camera extends RenderObject {
 				return this.position;
 			},
 			UniformEnum.FloatVec3
-		);
-		uniformBuffer.setUniform(
-			"reversedZ",
-			() => {
-				const depthRangeRemapMatrix = new Matrix4();
-				Matrix4.clone(Matrix4.IDENTITY, depthRangeRemapMatrix);
-				depthRangeRemapMatrix[10] = -1;
-				depthRangeRemapMatrix[14] = 1;
-
-				Matrix4.multiply(depthRangeRemapMatrix, this._projectionMatrix, depthRangeRemapMatrix);
-				return depthRangeRemapMatrix;
-			},
-			UniformEnum.Mat4
 		);
 		this.shaderData.setUniformBuffer("camera", uniformBuffer);
 	}

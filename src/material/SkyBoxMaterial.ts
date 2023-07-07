@@ -18,7 +18,7 @@ export default class SkyBoxMaterial extends Material {
 		});
 		this.loadFish = false;
 		this.renderState.depthStencil.depthWriteEnabled = false;
-		this.renderState.depthStencil.depthCompare = CompareFunction.LessEqual;
+		this.renderState.depthStencil.depthCompare = CompareFunction.GreaterEqual;
 	}
 	async loadTexture(urls) {
 		const result = await CubeTextureLoader(urls);

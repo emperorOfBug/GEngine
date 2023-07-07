@@ -49,7 +49,7 @@ export class BasicPass extends Pass {
 			usage: TextureUsage.RenderAttachment
 		});
 		const colorAttachment = new Attachment({ r: 0.0, g: 0.0, b: 0.0, a: 0.0 }, { texture: colorTexture });
-		const depthAttachment = new Attachment(1.0, { texture: depthTexture });
+		const depthAttachment = new Attachment(0.0, { texture: depthTexture });
 		this.renderTarget = new RenderTarget("render", [colorAttachment], depthAttachment);
 	}
 	public setSize(width: number, height: number): void {

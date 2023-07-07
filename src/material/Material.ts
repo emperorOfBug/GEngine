@@ -1,5 +1,5 @@
 import { FrameState } from "../core/FrameState";
-import { CullMode, PrimitiveTopology } from "../core/WebGPUConstant";
+import {CompareFunction, CullMode, PrimitiveTopology} from "../core/WebGPUConstant";
 import Color from "../math/Color";
 import { Mesh } from "../mesh/Mesh";
 import { DepthStencil, RenderState, Target, Primitive } from "../render/RenderState";
@@ -125,7 +125,9 @@ export class Material {
 		// 默认渲染状态
 		const primitive = new Primitive();
 		const target = new Target();
-		const depthStencil = new DepthStencil();
+		const depthStencil = new DepthStencil({
+			depthCompare:CompareFunction.Greater
+		});
 		this._renderState = new RenderState();
 		this._renderState.primitive = primitive;
 		this._renderState.targets = [target];

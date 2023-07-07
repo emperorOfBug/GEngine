@@ -1,5 +1,5 @@
 import { FrameState } from "../core/FrameState";
-import { BufferBindingType, BufferUsage } from "../core/WebGPUConstant";
+import {BufferBindingType, BufferUsage, CompareFunction} from "../core/WebGPUConstant";
 import { ShaderMaterialParms, Uniforms } from "../core/WebGPUTypes";
 import { Mesh } from "../mesh/Mesh";
 import UniformBuffer from "../render/UniformBuffer";
@@ -28,6 +28,7 @@ export default class ShaderMaterial extends Material {
 		this.uniforms = options.uniforms;
 		this.uniformBuffer = undefined;
 		this.light = light || false;
+		this.renderState.depthStencil.depthCompare = CompareFunction.Less;
 	}
 	update(frameState?: FrameState, mesh?: Mesh) {
 		if (!this.shaderData || this.dirty) this.createShaderData(mesh);

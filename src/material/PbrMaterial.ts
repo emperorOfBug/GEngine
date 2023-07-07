@@ -1,6 +1,6 @@
 import { FrameState } from "../core/FrameState";
 import textureCache from "../core/TextureCache";
-import { CullMode } from "../core/WebGPUConstant";
+import {CompareFunction, CullMode} from "../core/WebGPUConstant";
 import Vector2 from "../math/Vector2";
 import { Mesh } from "../mesh/Mesh";
 import Sampler from "../render/Sampler";
