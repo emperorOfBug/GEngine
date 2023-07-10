@@ -44,8 +44,7 @@ export default class ShaderMaterial extends Material {
 				? new UniformBuffer({
 						label: this.type + "UniformBuffer",
 						type: BufferBindingType.ReadOnlyStorage,
-						usage: BufferUsage.Storage | BufferUsage.CopyDst
-				  })
+						usage: BufferUsage.Storage | BufferUsage.CopyDst})
 				: new UniformBuffer({ label: this.type + "UniformBuffer" });
 			this.shaderData.setUniformBuffer(this.type, this.uniformBuffer);
 		}
